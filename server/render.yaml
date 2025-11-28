@@ -18,4 +18,4 @@ services:
       - key: JWT_REFRESH_SECRET
         generateValue: true
       - key: CLIENT_URL
-        value: https://edulearn-gold.vercel.app
+        value: https://edureach-inky.vercel.app
