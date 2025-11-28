@@ -5,9 +5,22 @@ const cors = require('cors');
 const connectDB = require('./config/db');
 
 const app = express();
+// Robust CORS: allow configured origin and localhost for dev
+const allowedOrigins = [
+	process.env.CLIENT_URL,
+	'http://localhost:5173',
+	'http://localhost:5174',
+].filter(Boolean);
+
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
-  credentials: true
+	origin: (origin, callback) => {
+		// Non-browser requests may have no origin
+		if (!origin || allowedOrigins.includes(origin)) {
+			return callback(null, true);
+		}
+		return callback(new Error('Not allowed by CORS'));
+	},
+	credentials: true
 }));
 app.use(express.json());
 

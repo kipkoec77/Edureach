@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
 import MainLayout from './layouts/MainLayout'
 import Home from './pages/Home'
 import Courses from './pages/Courses'
@@ -24,12 +24,26 @@ import DashboardAdmin from './pages/DashboardAdmin'
 import TutorCourse from './pages/TutorCourse'
 import StudentAttendance from './pages/StudentAttendance'
 import ProtectedRoute from './components/ProtectedRoute'
+import { useAuth } from './context/AuthContext'
 
 export default function App() {
+  const { user } = useAuth()
   return (
     <MainLayout>
       <Routes>
-        <Route path="/" element={<Home/>} />
+        <Route
+          path="/"
+          element={
+            user
+              ? (
+                  <Navigate
+                    to={user.role === 'tutor' ? '/tutor' : user.role === 'admin' ? '/admin' : '/student'}
+                    replace
+                  />
+                )
+              : <Home/>
+          }
+        />
         <Route path="/courses" element={<Courses/>} />
         <Route path="/courses/:id" element={<CourseDetails/>} />
         <Route path="/apply" element={<TutorApplication/>} />
