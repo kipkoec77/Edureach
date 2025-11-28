@@ -17,9 +17,5 @@ services:
         generateValue: true
       - key: JWT_REFRESH_SECRET
         generateValue: true
-      - key: CLERK_SECRET_KEY
-        sync: false
-      - key: CLERK_PUBLISHABLE_KEY
-        sync: false
       - key: CLIENT_URL
-        sync: false
+        value: https://edulearn-gold.vercel.app
