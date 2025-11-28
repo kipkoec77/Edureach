@@ -1,4 +1,4 @@
-# 🎓 Edureach - Online Learning Platform
+# 🎓 EduReach - Online Learning Platform
 
 A full-stack educational platform connecting tutors and students with real-time course management, attendance tracking, assignments, and discussions.
 
@@ -22,9 +22,14 @@ A full-stack educational platform connecting tutors and students with real-time 
 - Receive announcements
 
 ### 🔐 Authentication
-- Powered by Clerk for secure authentication
+- JWT-based authentication (access + refresh tokens)
 - Role-based access (Student, Tutor, Admin)
-- Session management
+- Sessions handled via HTTP Authorization headers; tokens stored client-side
+
+#### Tutor Accounts Policy
+- Tutor accounts are created by the Admin.
+- Credentials and account details are generated and shared securely with tutors.
+- Tutors should change their password on first login and keep credentials confidential.
 
 ## 🛠️ Tech Stack
 
@@ -32,13 +37,11 @@ A full-stack educational platform connecting tutors and students with real-time 
 - **React** (Vite)
 - **React Router** for navigation
 - **Tailwind CSS** for styling
-- **Clerk React** for authentication
 - **Axios** for API calls
 
 ### Backend
 - **Node.js** with Express
 - **MongoDB** with Mongoose
-- **Clerk Express** for auth middleware
 - **JWT** for token management
 - **Multer** for file uploads
 
@@ -74,7 +77,7 @@ Edureach/
 ### Prerequisites
 - Node.js (v16 or higher)
 - MongoDB Atlas account
-- Clerk account
+ 
 
 ### 1. Clone the Repository
 ```bash
@@ -88,22 +91,17 @@ cd Edureach
 cd server
 npm install
 
-# Copy environment template and configure
-cp .env.example .env
-# Edit .env with your values
+# Create and configure `.env`
+# Edit `.env` with your values
 ```
 
-**Required environment variables** (`.env`):
+**Required environment variables** (`server/.env`):
 ```env
 PORT=5000
 MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/Edureach
 JWT_SECRET=your_jwt_secret
 JWT_REFRESH_SECRET=your_jwt_refresh_secret
 CLIENT_URL=http://localhost:5173
-
-CLERK_SECRET_KEY=sk_test_your_key_here
-CLERK_PUBLISHABLE_KEY=pk_test_your_key_here
-CLERK_API_KEY=sk_test_your_key_here
 ```
 
 Start the server:
@@ -117,14 +115,12 @@ npm start
 cd client
 npm install
 
-# Copy environment template and configure
-cp .env.example .env.local
-# Edit .env.local with your values
+# Create and configure `.env.local`
+# Edit `.env.local` with your values
 ```
 
-**Required environment variables** (`.env.local`):
+**Required environment variables** (`client/.env.local`):
 ```env
-VITE_CLERK_PUBLISHABLE_KEY=pk_test_your_key_here
 VITE_API_URL=http://localhost:5000/api
 ```
 
@@ -135,15 +131,13 @@ npm run dev
 
 Visit `http://localhost:5173` to see the app.
 
-### 4. Clerk Configuration
+### 4. Configuration Notes
 
-1. Go to [Clerk Dashboard](https://dashboard.clerk.com)
-2. Create a new application
-3. Copy your keys to the `.env` files
-4. Set up allowed origins:
-   - `http://localhost:5173` (frontend)
-   - `http://localhost:5000` (backend)
-5. Configure redirect URLs for sign-in/sign-up
+- Ensure CORS allows your frontend origin (no trailing slash):
+   - `http://localhost:5173` (local)
+   - Your Vercel domain in production
+- Set `CLIENT_URL` on the server to the frontend origin.
+- Set `VITE_API_URL` on the client to point to your backend `/api` base.
 
 ## 📱 Responsive Design
 
@@ -198,7 +192,6 @@ vercel --prod
 ## 🔒 Security
 
 - Environment variables for sensitive data
-- Clerk authentication with secure sessions
 - JWT tokens for API authorization
 - CORS configured for allowed origins
 - Input validation and sanitization
@@ -224,7 +217,6 @@ This project is licensed under the MIT License.
 For issues or questions:
 - Open an issue on GitHub
 - Check [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment help
-- Review [Clerk Docs](https://clerk.com/docs) for auth issues
 
 ## 🎯 Roadmap
 

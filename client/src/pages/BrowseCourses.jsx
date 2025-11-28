@@ -21,10 +21,10 @@ export default function BrowseCourses(){
     if (!user) return
     setLoading(true)
     try {
-      // Fetch all courses
-      const allRes = await fetch('/api/courses')
-      const allData = await allRes.json()
-      setAllCourses(allData.courses || [])
+      // Fetch all courses (standardized API instance)
+      const allRes = await API.get('/courses')
+      const allData = allRes.data
+      setAllCourses(Array.isArray(allData?.courses) ? allData.courses : [])
 
       // Fetch enrolled courses
       const enrolledRes = await API.get('/student/courses')

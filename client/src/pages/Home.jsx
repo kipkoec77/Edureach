@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import ApiStatusBadge from '../components/ApiStatusBadge'
+ 
 
 const TAGLINES = [
   'Where Ambition Meets Opportunity.',
@@ -48,7 +48,6 @@ export default function Home(){
 
               <div className="mt-5 flex items-center gap-4 text-sm text-gray-600">
                 <span>🔥 Trusted by 10,000+ learners worldwide</span>
-                <ApiStatusBadge />
               </div>
             </div>
 

@@ -12,7 +12,15 @@ export default function Courses(){
   const nav = useNavigate()
 
   useEffect(()=>{
-    API.get('/courses').then(r=>setCourses(r.data)).catch(console.error)
+    API.get('/courses')
+      .then(r => {
+        const list = Array.isArray(r.data?.courses) ? r.data.courses : []
+        setCourses(list)
+      })
+      .catch(err => {
+        console.error('Failed to load courses', err)
+        setCourses([])
+      })
   },[])
 
   useEffect(()=>{
